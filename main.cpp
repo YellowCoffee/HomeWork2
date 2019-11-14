@@ -6,6 +6,23 @@
 
 using namespace std;
 
+void printIp(std::vector<std::vector<int>> ip_pool)
+{
+    for(auto ip = ip_pool.cbegin(); ip != ip_pool.cend(); ++ip)
+    {
+        for(auto ip_part = ip->cbegin(); ip_part != ip->cend(); ++ip_part)
+        {
+            if (ip_part != ip->cbegin())
+            {
+                std::cout << ".";
+
+            }
+            std::cout << *ip_part;
+        }
+        std::cout << std::endl;
+    }
+}
+
 int main(int argc, char const *argv[])
 {
     try
@@ -23,38 +40,9 @@ int main(int argc, char const *argv[])
             ip_pool.push_back(ipInt);
         }
 
-/*
-        for(std::vector<std::vector<std::string> >::const_iterator ip = ip_pool.cbegin(); ip != ip_pool.cend(); ++ip)
-        {
-            for(std::vector<std::string>::const_iterator ip_part = ip->cbegin(); ip_part != ip->cend(); ++ip_part)
-            {
-                if (ip_part != ip->cbegin())
-                {
-                    std::cout << ".";
-
-                }
-                std::cout << *ip_part;
-            }
-            std::cout << std::endl;
-        }
-*/
         // TODO reverse lexicographically sort
         std::sort( ip_pool.begin(), ip_pool.end(), greater<vector<int>>() );
-
-
-        for(auto ip = ip_pool.cbegin(); ip != ip_pool.cend(); ++ip)
-        {
-            for(auto ip_part = ip->cbegin(); ip_part != ip->cend(); ++ip_part)
-            {
-                if (ip_part != ip->cbegin())
-                {
-                    std::cout << ".";
-
-                }
-                std::cout << *ip_part;
-            }
-            std::cout << std::endl;
-        }
+        printIp(ip_pool);
 
         // 222.173.235.246
         // 222.130.177.64
@@ -65,7 +53,13 @@ int main(int argc, char const *argv[])
         // 1.1.234.8
 
         // TODO filter by first byte and output
-        // ip = filter(1)
+        std::vector<std::vector<int>> ip;
+        for_each( ip_pool.cbegin(), ip_pool.cend(), [&ip](auto value) {
+            ip = filter(1)
+        } );
+        printIp( ip );
+
+
 
         // 1.231.69.33
         // 1.87.203.225
