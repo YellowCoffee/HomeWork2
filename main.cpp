@@ -42,7 +42,7 @@ int main(int argc, char const *argv[])
 
         // TODO reverse lexicographically sort
         std::sort( ip_pool.begin(), ip_pool.end(), greater<vector<int>>() );
-        printIp(ip_pool);
+//        printIp(ip_pool);
 
         // 222.173.235.246
         // 222.130.177.64
@@ -53,12 +53,9 @@ int main(int argc, char const *argv[])
         // 1.1.234.8
 
         // TODO filter by first byte and output
-        std::vector<std::vector<int>> ip;
-        for_each( ip_pool.cbegin(), ip_pool.cend(), [&ip](auto value) {
-            ip = filter(1)
-        } );
-        printIp( ip );
-
+//        ip = filter(1);
+        auto ip = filter( ip_pool, 1 );
+//        printIp( ip );
 
 
         // 1.231.69.33
@@ -68,7 +65,8 @@ int main(int argc, char const *argv[])
         // 1.1.234.8
 
         // TODO filter by first and second bytes and output
-        // ip = filter(46, 70)
+//         ip = filter(46, 70)
+        ip = filter( ip_pool, 46, 70);
 
         // 46.70.225.39
         // 46.70.147.26
