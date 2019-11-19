@@ -1,6 +1,7 @@
 #include <cassert>
 #include <cstdlib>
 #include <iostream>
+#include <iterator>
 
 #include "functions.h"
 
@@ -27,6 +28,7 @@ int main(int argc, char const *argv[])
 {
     try
     {
+
         std::vector<std::vector<int>> ip_pool;
 
         for(std::string line; std::getline(std::cin, line);) {
@@ -42,6 +44,7 @@ int main(int argc, char const *argv[])
 
         // TODO reverse lexicographically sort
         std::sort( ip_pool.begin(), ip_pool.end(), greater<vector<int>>() );
+
 //        printIp(ip_pool);
 
         // 222.173.235.246
@@ -75,23 +78,40 @@ int main(int argc, char const *argv[])
         // 1.1.234.8
 
         // TODO filter by first and second bytes and output
-        std::vector<int> v;
-        auto newV = getVector(v, 32);
 /*
+        std::vector<int> v;
+        auto newV = getVector(v, 32, 44, 55, 4);
+
+        for_each(newV.begin(), newV.end(), [](auto v) {
+           std::cout << v << " ";
+        });
+        std::cout << std::endl << std::flush;
+*/
+
+
         auto filter = [ip_pool](const auto& values...) {
             decltype (ip_pool) result;
 
-            std::for_each( ip_pool.begin(), ip_pool.end(), [&result, values, ip_pool](auto ip) {
-                auto compareArray = getVector( ip_pool, values );
-                result = compareArray;
+            std::for_each( ip_pool.begin(), ip_pool.end(), [&result, values..., ip_pool](auto ip) {
+                std::cout << values << std::endl;
+                auto compareArray = getVector( ip, values );
+
+//                std::copy(compareArray.begin(), compareArray.end(),
+//                              std::ostream_iterator< int >(std::cout, " "));
+
+                auto equal = std::equal(compareArray.begin(), compareArray.end(), ip.begin());
+                if(equal) {
+                    result.push_back( ip );
+                }
             } );
 
             return result;
         };
 
          auto ip = filter(46, 70);
-         printIp( ip );
-*/
+//         printIp( ip );
+
+
 //        ip = filter( ip_pool, 46, 70);
 
         // 46.70.225.39

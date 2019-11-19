@@ -34,12 +34,28 @@ V filter(const V &vector, const T& ... values) {
 
 template<typename Vector, typename T>
 typename enable_if< is_same<typename Vector::value_type, T>::value, Vector>::type
-//typename enable_if< true, Vector>::type
-getVector(Vector vector, const T& value) //, const T& ... values) {
+getVector(Vector vector, const T& t)
 {
-    return vector;
+    Vector result;
+    result.reserve(1);
+    result.push_back(t);
+    return result;
 }
 
+
+template<typename Vector, typename T, typename ...V>
+typename enable_if< is_same<typename Vector::value_type, T>::value, Vector>::type
+getVector(Vector vector, const T& t, const V& ...v)
+{
+    Vector result;
+    auto size = sizeof... (v) + 1;
+    result.reserve( size );
+    auto gV = getVector(vector, v...);
+    std::copy( gV.begin(), gV.end(), back_inserter(result)); // result.begin());
+//    result.push_back(t);
+    result.insert(result.begin(), t);
+    return result;
+}
 
 
 #endif // FUNCTIONS_H
