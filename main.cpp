@@ -54,8 +54,19 @@ int main(int argc, char const *argv[])
 
         // TODO filter by first byte and output
 //        ip = filter(1);
-        auto ip = filter( ip_pool, 1 );
-//        printIp( ip );
+        auto filter = [ip_pool]( const auto& value ) {
+            decltype (ip_pool) result;
+            std::for_each( ip_pool.begin(), ip_pool.end(), [&result, value](auto ip) {
+                if ( ip.at(0) == value ) {
+                    result.push_back( ip );
+                }
+            } );
+            return result;
+        };
+
+//        auto ip = filter( ip_pool, 1 );
+        auto ip = filter( 1 );
+        printIp( ip );
 
 
         // 1.231.69.33
@@ -66,7 +77,7 @@ int main(int argc, char const *argv[])
 
         // TODO filter by first and second bytes and output
 //         ip = filter(46, 70)
-        ip = filter( ip_pool, 46, 70);
+//        ip = filter( ip_pool, 46, 70);
 
         // 46.70.225.39
         // 46.70.147.26
