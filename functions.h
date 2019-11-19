@@ -31,10 +31,16 @@ V filter(const V &vector, const T& ... values) {
     });
     return result;
 }
-/*
-template<typename Vector, typename ...T>
-Vector getVector(Vector vector, const T& ... values) {
-    typename vector::value_type
+
+template<typename Vector, typename T>
+typename enable_if< is_same<typename Vector::value_type, T>::value, Vector>::type
+//typename enable_if< true, Vector>::type
+getVector(Vector vector, const T& value) //, const T& ... values) {
+{
+    return vector;
 }
-*/
+
+
+
 #endif // FUNCTIONS_H
+
