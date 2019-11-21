@@ -1,16 +1,19 @@
 cmake_minimum_required(VERSION 3.5)
 
-project(ip_filter LANGUAGES CXX)
+project(ip_filter VERSION 0.0.1)
 
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set( COMPILE_OPTIONS "-Wpedantic;-Wall;-Wextra" )
 
-include_directories(${Boost_INCLUDE_DIRS})
-find_package( Boost COMPONENTS unit_test_framework REQUIRED )
+add_executable(ip_filter main.cpp ) #functions.cpp)
 
-#add_executable( tests functions.cpp functions_test.cpp)
-#target_link_libraries( tests ${Boost_LIBRARIES} )
+install(TARGETS ip_filter RUNTIME DESTINATION bin)
+set(CPACK_GENERATOR DEB)
+set(CPACK_PACKAGE_VERSION_MAJOR "${PROJECT_VERSION_MAJOR}")
+set(CPACK_PACKAGE_VERSION_MINOR "${PROJECT_VERSION_MINOR}")
+set(CPACK_PACKAGE_VERSION_PATCH "${PROJECT_VERSION_PATCH}")
+set(CPACK_PACKAGE_CONTACT yellow_coffee@mail.com)
+set(CPACK_DEBIAN_PACKAGE_SHLIBDEPS ON)
 
-add_executable(ip_filter main.cpp functions.cpp)
-
+include(CPack)
