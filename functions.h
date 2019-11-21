@@ -5,6 +5,8 @@
 #include <vector>
 #include <algorithm>
 
+#include <iostream>
+
 using namespace std;
 
 std::vector<std::string> split(const std::string &str, char d);
@@ -51,12 +53,55 @@ getVector(Vector vector, const T& t, const V& ...v)
     auto size = sizeof... (v) + 1;
     result.reserve( size );
     auto gV = getVector(vector, v...);
-    std::copy( gV.begin(), gV.end(), back_inserter(result)); // result.begin());
-//    result.push_back(t);
+    std::copy( gV.begin(), gV.end(), back_inserter(result));
     result.insert(result.begin(), t);
     return result;
 }
 
+template<typename Vector> //, typename T, typename ... V>
+class Filter
+{
+    Vector m_vector;
+public:
+    Filter(const Vector& vector) : m_vector(vector) {}
+
+    /*
+    void operator()() const {
+        for_each(m_vector.begin(), m_vector.end(), [](auto v) {
+           std::cout << v << " ";
+        });
+        std::cout << std::endl << std::flush;
+    }
+
+    void operator ()(int i) const {
+        for_each(m_vector.begin(), m_vector.end(), [i](auto v) {
+           std::cout << v + i<< " ";
+        });
+        std::cout << std::endl << std::flush;
+    }
+    */
+
+    template<typename T, typename ...V>
+    Vector operator ()(const T& t, const V& ...v) {
+        Vector result;
+        for_each( m_vector.begin(), m_vector.end(), [&result, t, v...](auto ip){
+           auto compareArr = getVector(t, v...);
+           bool eq = equal(compareArr.begin(), compareArr.end(), ip.begin());
+           if (eq) {
+               result.push_back(ip);
+           }
+        });
+        return result;
+
+/*
+        auto nv = getVector( m_vector, t, v...  );
+        for_each(nv.begin(), nv.end(), [t](auto e) {
+            std::cout << e << " ";
+        });
+        std::cout << std::endl << std::flush;
+*/
+    }
+};
 
 #endif // FUNCTIONS_H
 
